@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+python-multipart
+opencv-python-headless
+numpy
+psycopg2-binary
+google-cloud-storage
+python-dotenv
+ultralytics
+torch
+ffmpeg-python
+pillow
+starlette>=0.27.0

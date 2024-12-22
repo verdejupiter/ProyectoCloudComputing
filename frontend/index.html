@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Detección de Objetos en Video</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Sistema de Detección de Objetos en Video</h1>
+
+        <!-- Sección de Carga de Videos -->
+        <div class="section upload-section">
+            <h2>Subir Nuevo Video</h2>
+            <div class="upload-container">
+                <input type="file" id="video-upload" accept=".mp4,.avi,.mov" class="file-input">
+                <button onclick="uploadVideo()" class="upload-button">Subir Video</button>
+            </div>
+            <div class="file-restrictions">
+                <p>Formatos permitidos: MP4, AVI, MOV</p>
+                <p>Tamaño máximo: 16MB</p>
+            </div>
+        </div>
+
+        <!-- Menú de Videos -->
+        <div class="section video-select-section">
+            <h2>Selección de Videos</h2>
+            <div class="video-controls">
+                <select id="video-select" class="video-dropdown">
+                    <option value="">Seleccione un video</option>
+                </select>
+                <button onclick="processVideo()" class="process-button">Procesar Video</button>
+            </div>
+        </div>
+
+        <!-- Barra de Progreso -->
+        <div id="progress-container" class="section progress-section" style="display: none;">
+            <h3>Progreso del Procesamiento</h3>
+            <div class="progress-bar">
+                <div id="progress-fill"></div>
+            </div>
+            <p id="progress-text">0%</p>
+        </div>
+
+        <!-- Video Procesado -->
+        <div id="video-container" class="section video-section">
+            <h2>Video Procesado</h2>
+            <video
+                id="video-player"
+                controls
+                crossorigin="anonymous"
+                preload="auto"
+                playsinline
+                type="video/mp4"
+                class="video-player"
+                style="display: none;"
+            >
+                <p>Tu navegador no soporta la reproducción de videos.</p>
+            </video>
+            <div id="video-error" class="error-display" style="display: none;"></div>
+        </div>
+        
+        <!-- Mapa de Calor -->
+        <div class="section heatmap-section">
+            <h2>Mapa de Calor de Detecciones</h2>
+            <div id="heatmap-container" class="heatmap-container"></div>
+        </div>
+
+        <!-- Búsqueda de Objetos -->
+        <div class="section search-section">
+            <h2>Búsqueda de Objetos Detectados</h2>
+            <div class="search-container">
+                <select id="object-search" class="object-select">
+                    <option value="">Seleccione un objeto</option>
+                </select>
+                <button onclick="searchObjects()" class="search-button">Buscar</button>
+            </div>
+            <div id="search-results" class="search-results-container"></div>
+        </div>
+
+        <!-- Estadísticas de Detección -->
+        <div class="section stats-section">
+            <h2>Estadísticas de Detección</h2>
+            <div id="detection-stats" class="stats-container">
+                <div class="stats-row">
+                    <div class="stat-card">
+                        <h4>Total de Objetos</h4>
+                        <p id="total-objects">-</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Objetos Únicos</h4>
+                        <p id="unique-objects">-</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Confianza Promedio</h4>
+                        <p id="avg-confidence">-</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resultados de Procesamiento -->
+        <div class="section results-section">
+            <h2>Resultados del Procesamiento</h2>
+            <div class="results-grid">
+                <div class="result-card">
+                    <h4>Estado del Procesamiento</h4>
+                    <p id="processing-status">No iniciado</p>
+                </div>
+                <div class="result-card">
+                    <h4>Tiempo de Procesamiento</h4>
+                    <p id="processing-time">-</p>
+                </div>
+                <div class="result-card">
+                    <h4>Almacenamiento</h4>
+                    <p id="storage-info">-</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Simulación Stream -->
+        <div class="section stream-section">
+            <h2>Simulación Stream en Tiempo Real</h2>
+            <div class="stream-controls">
+                <button onclick="startStreamSimulation()" id="stream-button" class="stream-btn">Iniciar Stream</button>
+                <button onclick="stopStreamSimulation()" id="stop-stream-button" class="stream-btn" style="display: none;">Detener Stream</button>
+            </div>
+            <div id="stream-container" class="stream-container">
+                <img id="stream-view" class="stream-view" style="display: none;" alt="Stream en vivo">
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>Sistema de Detección de Objetos en Video - 2024</p>
+            <p>Desarrollado con FastAPI, PostgreSQL y Google Cloud Storage</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

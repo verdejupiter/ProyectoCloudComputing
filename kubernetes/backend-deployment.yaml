@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: video-detection-backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: video-detection-backend
+  template:
+    metadata:
+      labels:
+        app: video-detection-backend
+    spec:
+      containers:
+      - name: backend
+        image: gcr.io/video-detection-2024/video-detection-backend:latest
+        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "250m"
+          limits:
+            memory: "2Gi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8000
+        env:
+        - name: POSTGRES_HOST
+          value: "postgres"
+        - name: POSTGRES_PORT
+          value: "5432"
+        - name: POSTGRES_DB
+          value: "video_detection"
+        - name: POSTGRES_USER
+          value: "postgres"
+        - name: POSTGRES_PASSWORD
+          value: "angely"
+        - name: GCS_PROJECT_ID
+          value: "video-detection-2024"
+        - name: ORIGINAL_VIDEOS_BUCKET
+          value: "video-detection-original-2024"
+        - name: PROCESSED_VIDEOS_BUCKET
+          value: "video-detection-processed-2024"
+        - name: HEATMAPS_BUCKET
+          value: "video-detection-heatmaps-2024"
+        volumeMounts:
+        - name: service-account
+          mountPath: /app/service-account-key.json
+          subPath: service-account-key.json
+        - name: models
+          mountPath: /app/models
+      volumes:
+      - name: service-account
+        hostPath:
+          path: /path/to/service-account-key.json
+          type: File
+      - name: models
+        emptyDir: {}
+      initContainers:
+      - name: download-model
+        image: curlimages/curl
+        command:
+        - sh
+        - -c
+        - curl -L https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8n.pt -o /models/yolov8n.pt
+        volumeMounts:
+        - name: models
+          mountPath: /models
